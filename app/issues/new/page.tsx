@@ -2,6 +2,7 @@
 
 import { createIssueSchema } from "@/app/api/issues/route";
 import ErrorMessage from "@/app/component/ErrorMessage";
+import Spinner from "@/app/component/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField, Text } from "@radix-ui/themes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -71,7 +72,9 @@ const NewIssuePage = () => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button type="submit">Submit New Issue</Button>
+        <Button type="submit">
+          Submit New Issue {addUser.isPending && <Spinner />}
+        </Button>
       </form>
     </div>
   );
