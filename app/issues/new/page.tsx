@@ -1,6 +1,7 @@
 "use client";
 
 import { createIssueSchema } from "@/app/api/issues/route";
+import ErrorMessage from "@/app/component/ErrorMessage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField, Text } from "@radix-ui/themes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -61,11 +62,7 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
-        {errors.title && (
-          <Text color="red" className="mt-3 inline-block">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -73,11 +70,7 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-        {errors.description && (
-          <Text as="p" color="red">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button type="submit">Submit New Issue</Button>
       </form>
     </div>
