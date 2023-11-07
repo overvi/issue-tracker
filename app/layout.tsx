@@ -18,13 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Theme>
-      <html lang="en">
-        <body className={inter.className}>
+    <html lang="en">
+      <body className={inter.className}>
+        <Theme>
           <NavBar />
-          <main>{children}</main>
-        </body>
-      </html>
-    </Theme>
+          <main className="p-5">{children}</main>
+        </Theme>
+      </body>
+    </html>
   );
 }
