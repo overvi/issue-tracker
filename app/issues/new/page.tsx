@@ -3,44 +3,18 @@
 import { createIssueSchema } from "@/app/api/issues/route";
 import ErrorMessage from "@/app/component/ErrorMessage";
 import Spinner from "@/app/component/Spinner";
+import useIssues from "@/app/hook/useIssues";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, TextField, Text } from "@radix-ui/themes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 
-interface Props {
-  title: string;
-  description: string;
-}
-
 type Validation = z.infer<typeof createIssueSchema>;
 
 const NewIssuePage = () => {
-  const router = useRouter();
-
-  const queryClient = useQueryClient();
-
-  const addUser = useMutation({
-    mutationFn: (newIssue: Props) =>
-      axios.post("/api/issues", newIssue).then((res) => res.data),
-
-    onSuccess(savedIssues, newIssue) {
-      router.push("/issues");
-      queryClient.invalidateQueries({
-        queryKey: ["issue"],
-      });
-    },
-
-    onError(error) {
-      error.message = "An Unexpected Error Occured";
-    },
-  });
-
+  const addUser = useIssues();
   const {
     register,
     handleSubmit,
