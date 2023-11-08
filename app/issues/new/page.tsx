@@ -8,10 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
 import { Controller, useForm } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import { z } from "zod";
 
 type Validation = z.infer<typeof createIssueSchema>;
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 const NewIssuePage = () => {
   const addUser = useIssues();
