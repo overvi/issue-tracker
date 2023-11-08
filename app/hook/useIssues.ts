@@ -18,7 +18,7 @@ const useIssues = () => {
         onSuccess(savedIssues, newIssue) {
           router.push("/issues");
           queryClient.invalidateQueries({
-            queryKey: ["issue"],
+            queryKey: ["issues"],
           });
         },
     
