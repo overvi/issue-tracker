@@ -41,10 +41,6 @@ export const useUpdateIssues = (id : string) => {
   return useMutation({
     mutationFn: (newIssue: Props) =>
     axiosInstance.put(`/issues/${id}`, newIssue).then((res) => res.data),
-
-    onMutate : (updatedIssue : Props) => {
-      queryClient.setQueryData<Props>(['issues'] , issues => updatedIssue)
-    },
     onSuccess(savedIssues, newIssue) {
           
       queryClient.invalidateQueries({
@@ -60,6 +56,30 @@ export const useUpdateIssues = (id : string) => {
   });
   }
 
+export const useDeleteIssue = (id : string) => {
+  const router = useRouter();
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn : () => 
+    axiosInstance.delete(`/issues/${id}`)
+    .then(res => res.data),
 
+    onMutate : () => {
+      queryClient.clear()
+    },
+
+    onSuccess(savedIssues, newIssue) {
+      queryClient.invalidateQueries({
+        queryKey: ["issues"],
+      });
+      router.push("/issues");
+      router.refresh()
+    },
+
+    onError(error) {
+      error.message = "An Unexpected Error Occured";
+    },
+  })
+}
 
 export default useIssues

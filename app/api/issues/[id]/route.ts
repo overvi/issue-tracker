@@ -2,7 +2,11 @@ import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Validation from "../../validation";
 
-export async function PUT(request : NextRequest , {params} : {params : {id : string}}) {
+interface Props {
+    params : {id : string}
+}
+
+export async function PUT(request : NextRequest , {params} : Props) {
     const body = await request.json()
     const validation = Validation(body)
 
@@ -19,4 +23,12 @@ export async function PUT(request : NextRequest , {params} : {params : {id : str
 
     return NextResponse.json(updatedIssue , {status : 200})
 
+}
+
+export async function DELETE(request : NextRequest , { params } : Props) {
+     await prisma.issue.delete({
+        where : {id : parseInt(params.id)}
+    })
+
+    return NextResponse.json({})
 }
