@@ -1,5 +1,3 @@
-import React from "react";
-import IssueForm from "../../_components/IssueForm";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
 import FormSubmitHandler from "./FormSubmitHandler";

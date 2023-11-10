@@ -11,9 +11,11 @@ import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import IssueFormSkeleton from "./IssueFormSkeleton";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
+  loading: () => <IssueFormSkeleton />,
 });
 
 type IssueFormData = z.infer<typeof createIssueSchema>;
