@@ -6,6 +6,7 @@ import React from "react";
 import ReactMarkDown from "react-markdown";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import EditIssueButton from "./EditIssueButton";
 
 interface Props {
   params: { id: string };
@@ -30,11 +31,7 @@ const IssuesDetailsPage = async ({ params }: Props) => {
         </Card>
       </Box>
       <Box>
-        <Button>
-          {" "}
-          <Pencil2Icon />{" "}
-          <Link href={`issues/${issue.id}/edit`}>Edit Issue</Link>
-        </Button>
+        <EditIssueButton issueId={issue.id} />
       </Box>
     </Grid>
   );

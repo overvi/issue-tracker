@@ -6,6 +6,10 @@ interface Props {
     title: string;
     description: string;
   }
+
+const axiosInstance = axios.create({
+  baseURL : '/api'
+})
   
 
 const useIssues = () => {
@@ -13,13 +17,15 @@ const useIssues = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (newIssue: Props) =>
-          axios.post("/api/issues", newIssue).then((res) => res.data),
+          axiosInstance.post("/issues", newIssue).then((res) => res.data),
     
         onSuccess(savedIssues, newIssue) {
-          router.push("/issues");
+          
           queryClient.invalidateQueries({
             queryKey: ["issues"],
           });
+          router.push("/issues");
+          router.refresh()
         },
     
         onError(error) {
@@ -27,6 +33,33 @@ const useIssues = () => {
         },
       });
 }
+
+
+export const useUpdateIssues = (id : string) => {
+  const router = useRouter();
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (newIssue: Props) =>
+    axiosInstance.put(`/issues/${id}`, newIssue).then((res) => res.data),
+
+    onMutate : (updatedIssue : Props) => {
+      queryClient.setQueryData<Props>(['issues'] , issues => updatedIssue)
+    },
+    onSuccess(savedIssues, newIssue) {
+          
+      queryClient.invalidateQueries({
+        queryKey: ["issues"],
+      });
+      router.push("/issues");
+      router.refresh()
+    },
+
+    onError(error) {
+      error.message = "An Unexpected Error Occured";
+    },
+  });
+  }
+
 
 
 export default useIssues
