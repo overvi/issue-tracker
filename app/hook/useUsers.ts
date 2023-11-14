@@ -7,7 +7,10 @@ const useUsers = () => {
     return useQuery({
         queryKey : ['users'],
         queryFn : () => axiosInstance.get<User[]>('/users')
-        .then(res => res.data)
+        .then(res => res.data),
+
+        staleTime : 60 * 1000,
+        retry : 3
     })
 }
 
