@@ -40,7 +40,7 @@ export const useUpdateIssues = (id : string) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (newIssue: Props) =>
-    axiosInstance.put(`/issues/${id}`, newIssue).then((res) => res.data),
+    axiosInstance.patch(`/issues/${id}`, newIssue).then((res) => res.data),
     onSuccess(savedIssues, newIssue) {
           
       queryClient.invalidateQueries({
