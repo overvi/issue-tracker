@@ -30,6 +30,9 @@ const Padgination = ({ currentPage, totalPages, itemSize }: Props) => {
   if (pages <= 1) return;
   return (
     <Flex className="gap-5 items-center">
+      <Text size="2">
+        page {currentPage} of {pages}
+      </Text>
       <Button
         onClick={() => updatePage(1)}
         disabled={currentPage === 1}
@@ -46,9 +49,6 @@ const Padgination = ({ currentPage, totalPages, itemSize }: Props) => {
       >
         <ChevronLeftIcon />
       </Button>
-      <Text size="2">
-        page {currentPage} of {pages}
-      </Text>
       <Button
         onClick={() => updatePage(currentPage + 1)}
         disabled={currentPage === pages}
