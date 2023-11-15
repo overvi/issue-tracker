@@ -1,6 +1,5 @@
 "use client";
 
-import { Spinner } from "@/app/component";
 import { useDeleteIssue } from "@/app/hook/useIssues";
 import { AlertDialog, Button, Flex, Text } from "@radix-ui/themes";
 
@@ -12,7 +11,7 @@ const DelteIssueButton = ({ issueId }: { issueId: number }) => {
       <AlertDialog.Trigger>
         <Button color="red">Delete Issue</Button>
       </AlertDialog.Trigger>
-      <AlertDialog.Content className="bg-red-400">
+      <AlertDialog.Content>
         <form
           onSubmit={(event) => {
             deleteIssue.mutate();

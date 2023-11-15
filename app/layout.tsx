@@ -1,13 +1,12 @@
 import Query from "@/Query";
 import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
-import { QueryClient } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
+import AuthProvider from "./auth/AuthProvider";
 import "./globals.css";
 import "./theme-config.css";
-import AuthProvider from "./auth/AuthProvider";
 
 const inter = Inter({
   subsets: ["latin"],
