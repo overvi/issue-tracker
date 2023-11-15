@@ -1,12 +1,10 @@
-import { IssueStatusBadge, Link } from "@/app/component";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
-import { Flex, Table } from "@radix-ui/themes";
-import NextLink from "next/link";
+import { Flex } from "@radix-ui/themes";
 import Padgination from "../component/Padgination";
 import IssueTable, { columnNames } from "./list/IssueTable";
 import IssuesToolBar from "./list/IssuesToolBar";
+import { Metadata } from "next";
 
 export interface IssueQuery {
   status: Status;
@@ -54,5 +52,10 @@ const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
 };
 
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Issue Tracker  -Issue List",
+  description: "View all Project Issues",
+};
 
 export default IssuesPage;
