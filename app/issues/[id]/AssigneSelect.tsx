@@ -5,11 +5,19 @@ import { axiosInstance } from "@/app/hook/useIssues";
 import useUsers from "@/app/hook/useUsers";
 import { Issue } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { Toaster } from "react-hot-toast";
-import toast from "react-hot-toast/headless";
+import toast, { Toaster } from "react-hot-toast";
 
 const AssigneSelect = ({ issue }: { issue: Issue }) => {
   const { data: users, isLoading, error } = useUsers();
+
+  const assigneUser = (userId: string) =>
+    axiosInstance
+      .patch(`/isshues/${issue.id}`, {
+        assignedUserId: userId || null,
+      })
+      .catch(() => {
+        toast.error("Changes Could Not Be Saved");
+      });
 
   if (isLoading) return <Skeleton />;
 
@@ -18,15 +26,7 @@ const AssigneSelect = ({ issue }: { issue: Issue }) => {
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          axiosInstance
-            .patch(`/issues/${issue.id}`, {
-              assignedUserId: userId || null,
-            })
-            .catch((err) => {
-              toast.error("Changes Could Not Be Saved");
-            });
-        }}
+        onValueChange={assigneUser}
       >
         <Select.Trigger placeholder="...Assign" />
         <Select.Content>

@@ -10,14 +10,25 @@ interface Props {
 export const axiosInstance = axios.create({
   baseURL : '/api'
 })
+
+interface AddIssueContext {
+  previousIssue : Props[]
+}
   
 
 const useIssues = () => {
     const router = useRouter();
     const queryClient = useQueryClient()
-    return useMutation({
+    return useMutation<Props , Error , Props , AddIssueContext>({
         mutationFn: (newIssue: Props) =>
           axiosInstance.post("/issues", newIssue).then((res) => res.data),
+
+        onMutate(newIssue : Props)  {
+          const previousIssue = queryClient.getQueryData<Props[]>(['issues']) || []
+          queryClient.setQueryData<Props[]>(['issues'] , issues => [...(issues || []) , newIssue] )
+
+          return { previousIssue };
+        },
     
         onSuccess(savedIssues, newIssue) {
           
@@ -28,8 +39,11 @@ const useIssues = () => {
           router.refresh()
         },
     
-        onError(error) {
+        onError(error , newIssue , context) {
           error.message = "An Unexpected Error Occured";
+          if (!context) return;
+           queryClient.setQueryData<Props[]>(['issues'] , context.previousIssue)
+            
         },
       });
 }
