@@ -12,7 +12,7 @@ const AssigneSelect = ({ issue }: { issue: Issue }) => {
 
   const assigneUser = (userId: string) =>
     axiosInstance
-      .patch(`/isshues/${issue.id}`, {
+      .patch(`/issues/${issue.id}`, {
         assignedUserId: userId || null,
       })
       .catch(() => {
