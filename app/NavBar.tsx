@@ -28,7 +28,7 @@ const NavBar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <Flex className="gap-5">
+          <Flex className="gap-5 items-center">
             <ChangeTheme />
             <AuthStatus />
           </Flex>
