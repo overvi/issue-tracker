@@ -1,6 +1,5 @@
 "use client";
 
-import { Spinner } from "@/app/component";
 import { useDeleteIssue } from "@/app/hook/useIssues";
 import { AlertDialog, Button, Flex, Text } from "@radix-ui/themes";
 
