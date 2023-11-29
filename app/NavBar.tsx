@@ -15,10 +15,11 @@ import {
   Avatar,
   Text,
 } from "@radix-ui/themes";
+import ChangeTheme from "./component/ChangeTheme";
 
 const NavBar = () => {
   return (
-    <nav className=" flex gap-5 p-4 border-y mb-5 justify-between">
+    <nav className=" flex gap-5 p-4 border-y dark:border-zinc-400 mb-5 justify-between">
       <Container>
         <Flex align="center" justify="between" gap="5">
           <Flex className="items-center gap-3">
@@ -27,7 +28,10 @@ const NavBar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <AuthStatus />
+          <Flex className="gap-5">
+            <ChangeTheme />
+            <AuthStatus />
+          </Flex>
         </Flex>
       </Container>
     </nav>
@@ -48,7 +52,7 @@ const NavLinks = () => {
           <Link
             className={classNames({
               "nav-link": true,
-              "!text-zinc-900": link.herf === currentPath,
+              "!text-zinc-900 dark:!text-zinc-50 ": link.herf === currentPath,
             })}
             href={link.herf}
           >
@@ -67,7 +71,7 @@ const AuthStatus = () => {
 
   if (status === "unauthenticated")
     return (
-      <Link className="nav-link" href="/api/auth/signin">
+      <Link className=" nav-link font-medium" href="/api/auth/signin">
         Log In
       </Link>
     );
