@@ -8,14 +8,6 @@
   }
 }
 
-@layer base {
-  :root {
-    --clr-link: red;
-  }
-
-  @media (prefers-color-schema: dark) {
-    :root {
-      --clr-link: white;
-    }
-  }
+.EasyMDEContainer .CodeMirror {
+  @apply dark:bg-[#191719] text-white;
 }
