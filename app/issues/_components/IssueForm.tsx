@@ -61,7 +61,11 @@ const IssueForm = ({ issue, onSubmit, children }: Props) => {
           control={control}
           defaultValue={issue?.description}
           render={({ field }) => (
-            <SimpleMDE placeholder="Description" {...field} />
+            <SimpleMDE
+              className="dark:bg-[#191719] dark:text-white"
+              placeholder="Description"
+              {...field}
+            />
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>

@@ -1,7 +1,7 @@
 "use client";
 import { IconButton } from "@radix-ui/themes";
+import { FaRegLightbulb, FaRegMoon } from "react-icons/fa";
 import { IoCloudyNightOutline } from "react-icons/io5";
-import { FaRegLightbulb } from "react-icons/fa";
 import { create } from "zustand";
 
 interface DarkLight {
@@ -16,8 +16,8 @@ export const useColorMode = create<DarkLight>((set) => ({
 
 const ChangeTheme = () => {
   const { setColorMode, colorMode } = useColorMode();
-  const icon =
-    colorMode === "light" ? <IoCloudyNightOutline /> : <FaRegLightbulb />;
+  const icon = colorMode === "light" ? <FaRegMoon /> : <FaRegLightbulb />;
+
   return (
     <IconButton
       onClick={() => setColorMode(colorMode === "light" ? "dark" : "light")}
