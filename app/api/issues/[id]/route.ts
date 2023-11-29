@@ -41,6 +41,7 @@ export async function PATCH(
   const updatedIssue = await prisma.issue.update({
     where: { id: issue.id },
     data: {
+      status: "IN_PROGRESS",
       title,
       description,
       assignedToUserId: assignedUserId,

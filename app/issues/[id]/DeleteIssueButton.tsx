@@ -12,7 +12,7 @@ const DelteIssueButton = ({ issueId }: { issueId: number }) => {
       <AlertDialog.Trigger>
         <Button color="red">Delete Issue</Button>
       </AlertDialog.Trigger>
-      <AlertDialog.Content className="bg-red-400">
+      <AlertDialog.Content>
         <form
           onSubmit={(event) => {
             deleteIssue.mutate();
