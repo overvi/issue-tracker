@@ -9,5 +9,5 @@
 }
 
 .EasyMDEContainer .CodeMirror {
-  @apply dark:bg-[#191719] text-white;
+  @apply dark:bg-[#191719] dark:text-white;
 }
