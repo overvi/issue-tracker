@@ -6,6 +6,7 @@ export const createIssueSchema = z.object({
 });
 export const PatchIssueSchema = z.object({
   title: z.string().min(1, "Title is required").max(250).optional(),
+  status: z.string().optional(),
   description: z
     .string()
     .min(1, "Description is Required")
