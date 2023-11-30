@@ -7,7 +7,8 @@ import NavBar from "./NavBar";
 import AuthProvider from "./auth/AuthProvider";
 import "./globals.css";
 import "./theme-config.css";
-import RadixUiProvider from "@/RadixUiProvider";
+import { ThemeProvider } from "next-themes";
+import DarkModeProvider from "@/DarkModeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,16 +25,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html className="dark" lang="en">
       <body className={inter.variable}>
         <Query>
           <AuthProvider>
-            <RadixUiProvider>
-              <NavBar />
-              <main className="p-5">
-                <Container>{children}</Container>
-              </main>
-            </RadixUiProvider>
+            <DarkModeProvider>
+              <Theme accentColor="violet">
+                <NavBar />
+                <main className="p-5">
+                  <Container>{children}</Container>
+                </main>
+              </Theme>
+            </DarkModeProvider>
           </AuthProvider>
         </Query>
       </body>
