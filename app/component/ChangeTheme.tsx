@@ -21,10 +21,8 @@ const ChangeTheme = () => {
   const setColorLogic = colorMode === "light" ? "dark" : "light";
 
   useEffect(() => {
-    const savedTheme: "dark" | "light" = JSON.parse(
-      localStorage.getItem("theme") || ""
-    );
-    setColorMode(savedTheme ?? "dark");
+    const theme = localStorage.getItem("theme");
+    if (theme === "light" || theme === "dark") setColorMode(theme);
   }, [colorMode]);
 
   return (
