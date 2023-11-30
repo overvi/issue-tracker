@@ -5,6 +5,7 @@ import Padgination from "../component/Padgination";
 import IssueTable, { columnNames } from "./list/IssueTable";
 import IssuesToolBar from "./list/IssuesToolBar";
 import { Metadata } from "next";
+import NotFoundIssue from "./NotFoundIssue";
 
 export interface IssueQuery {
   status: Status;
@@ -47,6 +48,7 @@ const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
         currentPage={page}
         itemSize={issueCount}
       />
+      {!issues && <NotFoundIssue />}
     </Flex>
   );
 };
