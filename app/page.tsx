@@ -22,6 +22,7 @@ export default async function Home() {
   );
 }
 
+export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Issue Tracker  -Dashbord",
   description: "View a summary of project issue",
