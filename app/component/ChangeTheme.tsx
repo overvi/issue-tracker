@@ -6,13 +6,13 @@ import { IoCloudyNightOutline } from "react-icons/io5";
 import { create } from "zustand";
 
 interface DarkLight {
-  colorMode: string;
-  setColorMode: (color: string) => void;
+  colorMode: "light" | "dark";
+  setColorMode: (color: "light" | "dark") => void;
 }
 
 export const useColorMode = create<DarkLight>((set) => ({
   colorMode: "light",
-  setColorMode: (color: string) => set({ colorMode: color }),
+  setColorMode: (color: "light" | "dark") => set({ colorMode: color }),
 }));
 
 const ChangeTheme = () => {
@@ -21,9 +21,11 @@ const ChangeTheme = () => {
   const setColorLogic = colorMode === "light" ? "dark" : "light";
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme: "dark" | "light" = JSON.parse(
+      localStorage.getItem("theme") || ""
+    );
     setColorMode(savedTheme ?? "dark");
-  }, []);
+  }, [colorMode]);
 
   return (
     <IconButton
