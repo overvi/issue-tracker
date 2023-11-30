@@ -5,6 +5,7 @@ import Padgination from "../component/Padgination";
 import IssueTable, { columnNames } from "./list/IssueTable";
 import IssuesToolBar from "./list/IssuesToolBar";
 import { Metadata } from "next";
+import NotFoundIssue from "./NotFoundIssue";
 
 export interface IssueQuery {
   status: Status;
@@ -37,11 +38,19 @@ const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
   });
 
   const issueCount = await prisma.issue.count({ where });
+  const allIssues = await prisma.issue.count();
 
+  if (!allIssues)
+    return (
+      <>
+        <IssuesToolBar />
+        <NotFoundIssue />
+      </>
+    );
   return (
     <Flex direction="column" gap="3">
       <IssuesToolBar />
-      <IssueTable searchParams={searchParams} issues={issues} />
+      {allIssues && <IssueTable searchParams={searchParams} issues={issues} />}
       <Padgination
         totalPages={pageSize}
         currentPage={page}
