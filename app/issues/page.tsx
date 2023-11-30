@@ -40,7 +40,13 @@ const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
   const issueCount = await prisma.issue.count({ where });
   const allIssues = await prisma.issue.count();
 
-  if (!allIssues) return <NotFoundIssue />;
+  if (!allIssues)
+    return (
+      <>
+        <IssuesToolBar />
+        <NotFoundIssue />
+      </>
+    );
   return (
     <Flex direction="column" gap="3">
       <IssuesToolBar />
