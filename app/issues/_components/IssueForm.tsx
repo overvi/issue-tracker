@@ -27,7 +27,7 @@ interface Props {
 }
 
 const IssueForm = ({ issue, onSubmit, children }: Props) => {
-  const { error, isPending } = useIssues();
+  const { error } = useIssues();
   const {
     register,
     control,
