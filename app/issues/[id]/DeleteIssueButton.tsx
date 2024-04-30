@@ -3,7 +3,7 @@
 import { useDeleteIssue } from "@/app/hook/useIssues";
 import { AlertDialog, Button, Flex, Text } from "@radix-ui/themes";
 
-const DelteIssueButton = ({ issueId }: { issueId: number }) => {
+const DelteIssueButton = ({ issueId }: { issueId: string }) => {
   const deleteIssue = useDeleteIssue(issueId.toString());
 
   return (
