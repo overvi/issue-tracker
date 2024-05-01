@@ -20,7 +20,7 @@ export default async function Home() {
         </Flex>
         <LatestIssue />
       </Grid>
-      <p className=" text-xs m-auto right-0 left-0 mb-3 max-w-fit absolute bottom-0">
+      <p className=" hidden md:block text-xs m-auto right-0 left-0 mb-3 max-w-fit absolute bottom-0">
         &copy; 2024 Ali028 All rights reserved.
       </p>
     </>
