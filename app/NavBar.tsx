@@ -5,8 +5,15 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { AiFillBug } from "react-icons/ai";
 import classNames from "classnames";
-import { useSession } from "next-auth/react";
 import { Skeleton } from "@/app/component";
+import {
+  SignInButton,
+  SignOutButton,
+  SignUpButton,
+  UserButton,
+  useSession,
+  useUser,
+} from "@clerk/nextjs";
 import {
   Box,
   Container,
@@ -14,8 +21,12 @@ import {
   DropdownMenu,
   Avatar,
   Text,
+  IconButton,
 } from "@radix-ui/themes";
 import ChangeTheme from "./component/ChangeTheme";
+import { SignIn } from "@clerk/nextjs";
+import { FaGoogle } from "react-icons/fa";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const NavBar = () => {
   return (
@@ -64,42 +75,22 @@ const NavLinks = () => {
   );
 };
 
-const AuthStatus = () => {
-  const { status, data: session } = useSession();
-
-  if (status === "loading") return <Skeleton width="3rem" />;
-
-  if (status === "unauthenticated")
-    return (
-      <Link className=" nav-link font-medium" href="/api/auth/signin">
-        Log In
-      </Link>
-    );
-
+const Sign = () => {
   return (
-    <Box>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
-          <Avatar
-            radius="full"
-            className="cursor-pointer"
-            src={session!.user?.image!}
-            fallback="?"
-            size="3"
-            referrerPolicy="no-referrer"
-          />
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Label>
-            <Text size="2">{session!.user?.email}</Text>
-          </DropdownMenu.Label>
-          <DropdownMenu.Item>
-            <Link href={"/api/auth/signout"}>Sign Out</Link>
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
-    </Box>
+    <div>
+      <SignUpButton mode="modal">
+        <IconButton className="!bg-transparent " aria-label="signup">
+          <FaGoogle color="lightgreen" size="25" />
+        </IconButton>
+      </SignUpButton>
+    </div>
   );
+};
+
+const AuthStatus = () => {
+  const { isSignedIn, isLoaded } = useUser();
+  if (!isLoaded) return <SkeletonTheme />;
+  return isSignedIn ? <UserButton /> : <Sign />;
 };
 
 export default NavBar;

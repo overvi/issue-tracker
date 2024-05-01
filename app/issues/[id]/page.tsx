@@ -5,10 +5,11 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 import { getServerSession } from "next-auth";
-import authOption from "@/app/auth/authOptions";
+
 import AssigneSelect from "./AssigneSelect";
 import { cache } from "react";
 import SelectStatus from "./SelectStatus";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 
 interface Props {
   params: { id: string };
@@ -18,8 +19,9 @@ const fetchuUser = cache((issueId: string) =>
   prisma.issue.findUnique({ where: { id: issueId } })
 );
 const IssuesDetailsPage = async ({ params }: Props) => {
-  const session = await getServerSession(authOption);
+  const session = auth();
   const issue = await fetchuUser(params.id);
+  const users = await clerkClient.users.getUserList();
 
   if (!issue) notFound();
 
@@ -31,7 +33,10 @@ const IssuesDetailsPage = async ({ params }: Props) => {
       {session && (
         <Box className="items-center">
           <Flex className="gap-4" direction="column">
-            <AssigneSelect issue={issue} />
+            <AssigneSelect
+              issue={issue}
+              users={JSON.parse(JSON.stringify(users.data))}
+            />
             <SelectStatus issue={issue} />
             <EditIssueButton issueId={issue.id} />
             <DeleteIssueButton issueId={issue.id} />

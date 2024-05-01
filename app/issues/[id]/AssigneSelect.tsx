@@ -3,12 +3,18 @@
 import { Skeleton } from "@/app/component";
 import { axiosInstance } from "@/app/hook/useIssues";
 import useUsers from "@/app/hook/useUsers";
+import { User } from "@clerk/nextjs/server";
 import { Issue } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import toast, { Toaster } from "react-hot-toast";
 
-const AssigneSelect = ({ issue }: { issue: Issue }) => {
-  const { data: users, isLoading, error } = useUsers();
+interface Props {
+  issue: Issue;
+  users: User[];
+}
+
+const AssigneSelect = ({ issue, users }: Props) => {
+  console.log(users);
 
   const assigneUser = (userId: string) =>
     axiosInstance
@@ -19,9 +25,6 @@ const AssigneSelect = ({ issue }: { issue: Issue }) => {
         toast.error("Changes Could Not Be Saved");
       });
 
-  if (isLoading) return <Skeleton />;
-
-  if (error) return null;
   return (
     <>
       <Select.Root
@@ -35,7 +38,7 @@ const AssigneSelect = ({ issue }: { issue: Issue }) => {
             <Select.Item value="">Unassigned</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
-                {user.name}
+                {user.firstName}
               </Select.Item>
             ))}
           </Select.Group>

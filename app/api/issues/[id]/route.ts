@@ -1,8 +1,9 @@
-import authOption from "@/app/auth/authOptions";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { PatchIssueSchema } from "../../validation";
+import { useSession } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 
 interface Props {
   params: { id: string };
@@ -12,7 +13,8 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const session = await getServerSession(authOption);
+  const session = auth();
+
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
@@ -25,9 +27,7 @@ export async function PATCH(
   const { assignedUserId, title, description, status } = body;
 
   if (assignedUserId) {
-    const user = await prisma.user.findUnique({
-      where: { id: assignedUserId },
-    });
+    const user = await clerkClient.users.getUser(assignedUserId);
     if (!user)
       return NextResponse.json({ error: "Invalid user." }, { status: 400 });
   }

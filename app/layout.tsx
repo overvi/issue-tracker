@@ -1,14 +1,14 @@
+import DarkModeProvider from "@/DarkModeProvider";
 import Query from "@/Query";
 import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
-import AuthProvider from "./auth/AuthProvider";
+
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import "./theme-config.css";
-import { ThemeProvider } from "next-themes";
-import DarkModeProvider from "@/DarkModeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,21 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="dark" lang="en">
-      <body className={inter.variable}>
-        <Query>
-          <AuthProvider>
+    <ClerkProvider>
+      <html className="dark" lang="en">
+        <body className={inter.variable}>
+          <Query>
             <DarkModeProvider>
-              <Theme accentColor="violet">
+              <Theme accentColor="violet" className="min-h-screen">
                 <NavBar />
                 <main className="p-5">
                   <Container>{children}</Container>
                 </main>
               </Theme>
             </DarkModeProvider>
-          </AuthProvider>
-        </Query>
-      </body>
-    </html>
+          </Query>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
