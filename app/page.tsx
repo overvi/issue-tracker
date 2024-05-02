@@ -4,6 +4,8 @@ import IssueCharts from "./IssueCharts";
 import { Flex, Grid, Text } from "@radix-ui/themes";
 import LatestIssue from "./LatestIssue";
 import { Metadata } from "next";
+import myself from "@/public/man1.jpg";
+import Image from "next/image";
 
 export default async function Home() {
   const open = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -20,9 +22,6 @@ export default async function Home() {
         </Flex>
         <LatestIssue />
       </Grid>
-      <p className=" hidden md:block text-xs m-auto right-0 left-0 mb-3 max-w-fit absolute bottom-0">
-        &copy; 2024 Ali028 All rights reserved.
-      </p>
     </>
   );
 }
