@@ -64,7 +64,7 @@ const CommentForm = ({ createUserId }: { createUserId: string }) => {
       mutate.mutate({
         comment: {
           content,
-          userId,
+          userId: createUserId,
           repliedTo: commentId,
         },
       });
