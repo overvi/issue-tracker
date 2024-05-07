@@ -38,7 +38,7 @@ const CommentForm = ({ createUserId }: { createUserId: string }) => {
   const issueId = pathname.slice(pathname.lastIndexOf("/") + 1);
   const mutate = useUpdateIssues(issueId);
 
-  const { userId, commentId, mode } = useCommentType();
+  const { userId, commentId, mode, setMode } = useCommentType();
 
   const {
     control,
@@ -76,6 +76,7 @@ const CommentForm = ({ createUserId }: { createUserId: string }) => {
       onSubmit={handleSubmit((data) => {
         onSubmit(data.content.slice(data.content.indexOf(":") + 1));
         reset();
+        setMode("CREATE");
       })}
     >
       <ErrorMessage>{errors.content?.message}</ErrorMessage>

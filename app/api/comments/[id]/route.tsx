@@ -10,5 +10,9 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     where: { id: params.id },
   });
 
+  await prisma.comment.deleteMany({
+    where: { repliedTo: params.id },
+  });
+
   return NextResponse.json({});
 }
