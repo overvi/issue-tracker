@@ -52,6 +52,7 @@ const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
       <IssuesToolBar />
       {allIssues && <IssueTable searchParams={searchParams} issues={issues} />}
       <Padgination
+        showPageN
         totalPages={pageSize}
         currentPage={page}
         itemSize={issueCount}

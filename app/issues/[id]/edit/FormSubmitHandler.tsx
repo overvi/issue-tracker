@@ -11,7 +11,9 @@ interface Props {
 }
 
 const FormSubmitHandler = ({ id, issue }: Props) => {
-  const updateUser = useUpdateIssues(id);
+  const updateUser = useUpdateIssues(id, {
+    redirectUrl: "/issues",
+  });
   return (
     <IssueForm issue={issue} onSubmit={(data) => updateUser.mutate(data)}>
       <ButtonPrimary>Update The Issue</ButtonPrimary>

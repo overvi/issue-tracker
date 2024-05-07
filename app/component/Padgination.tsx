@@ -7,32 +7,42 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import { Button, Flex, Text } from "@radix-ui/themes";
-import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import useUpdatePage from "../hook/useUpdatePage";
 
 interface Props {
   currentPage: number;
   totalPages: number;
   itemSize: number;
+  showPageN?: boolean;
 }
 
-const Padgination = ({ currentPage, totalPages, itemSize }: Props) => {
+const Padgination = ({
+  currentPage,
+  totalPages,
+  itemSize,
+  showPageN,
+}: Props) => {
   const pages = Math.ceil(itemSize / totalPages);
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const updatePage = useUpdatePage();
+  const params = useSearchParams();
+  const pageParam = params.get("page");
 
-  const updatePage = (page: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", page.toString());
-    router.push("?" + params.toString());
-  };
+  useEffect(() => {
+    if (parseInt(pageParam!) > pages) {
+      updatePage(1);
+    }
+  }, [pageParam, itemSize]);
 
   if (pages <= 1) return;
   return (
-    <Flex className="gap-5 items-center">
-      <Text size="2">
-        page {currentPage} of {pages}
-      </Text>
+    <Flex className="gap-5 items-center m-auto max-w-max mt-3">
+      {showPageN && (
+        <Text size="2">
+          page {currentPage} of {pages}
+        </Text>
+      )}
       <Button
         onClick={() => updatePage(1)}
         disabled={currentPage === 1}

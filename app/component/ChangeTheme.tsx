@@ -1,4 +1,5 @@
 "use client";
+
 import { IconButton } from "@radix-ui/themes";
 import { useTheme } from "next-themes";
 import { FaRegLightbulb, FaRegMoon } from "react-icons/fa";
@@ -10,7 +11,13 @@ const ChangeTheme = () => {
 
   return (
     <IconButton
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      onClick={() => {
+        setTheme(theme === "light" ? "dark" : "light");
+        document.documentElement.setAttribute(
+          "data-color-mode",
+          theme === "light" ? "dark" : "light"
+        );
+      }}
       variant="ghost"
     >
       <IoCloudyNightOutline size="25" />

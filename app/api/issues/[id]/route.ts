@@ -1,9 +1,7 @@
 import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { PatchIssueSchema } from "../../validation";
-import { useSession } from "@clerk/nextjs";
-import { auth, clerkClient } from "@clerk/nextjs/server";
 
 interface Props {
   params: { id: string };
@@ -24,7 +22,7 @@ export async function PATCH(
       status: 400,
     });
 
-  const { assignedUserId, title, description, status } = body;
+  const { assignedUserId, title, description, status, comment } = body;
 
   if (assignedUserId) {
     const user = await clerkClient.users.getUser(assignedUserId);
@@ -45,6 +43,11 @@ export async function PATCH(
       title,
       description,
       assignedToUserId: assignedUserId,
+      comments: {
+        create: {
+          ...comment,
+        },
+      },
     },
   });
 
@@ -54,6 +57,9 @@ export async function PATCH(
 export async function DELETE(request: NextRequest, { params }: Props) {
   await prisma.issue.delete({
     where: { id: params.id },
+    include: {
+      comments: true,
+    },
   });
 
   return NextResponse.json({});

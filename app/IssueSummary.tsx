@@ -21,7 +21,7 @@ const IssueSummary = ({ open, inProgress, closed }: Props) => {
         <Card key={container.label}>
           <Flex direction="column" gap="1">
             <Link
-              className="text-sm font-medium"
+              className="text-sm font-[500]"
               href={`/issues/?status=${container.status}`}
             >
               {container.label}

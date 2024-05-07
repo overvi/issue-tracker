@@ -4,6 +4,7 @@ import { statusMap } from "@/app/component/IssueStatusBadge";
 import { axiosInstance } from "@/app/hook/useIssues";
 import { Issue, Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 interface Props {
@@ -11,7 +12,8 @@ interface Props {
 }
 
 const SelectStatus = ({ issue }: Props) => {
-  const assigneUser = (status: Status) =>
+  const router = useRouter();
+  const assigneUser = (status: Status) => {
     axiosInstance
       .patch(`/issues/${issue.id}`, {
         status: status,
@@ -19,6 +21,8 @@ const SelectStatus = ({ issue }: Props) => {
       .catch(() => {
         toast.error("Changes Could Not Be Saved");
       });
+    router.refresh();
+  };
 
   return (
     <>

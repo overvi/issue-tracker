@@ -6,6 +6,8 @@ import useIssues from "@/app/hook/useIssues";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { Callout, TextField } from "@radix-ui/themes";
+import "@uiw/react-markdown-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
@@ -13,10 +15,10 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import IssueFormSkeleton from "./IssueFormSkeleton";
 
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-  loading: () => <IssueFormSkeleton />,
-});
+const MarkdownEditor = dynamic(
+  () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
+  { ssr: false, loading: () => <IssueFormSkeleton /> }
+);
 
 type IssueFormData = z.infer<typeof createIssueSchema>;
 
@@ -61,11 +63,14 @@ const IssueForm = ({ issue, onSubmit, children }: Props) => {
           control={control}
           defaultValue={issue?.description}
           render={({ field }) => (
-            <SimpleMDE
-              className="dark:bg-[#191719] dark:text-white"
-              placeholder="Description"
-              {...field}
-            />
+            <div>
+              <div className="wmde-markdown-var"> </div>
+              <MarkdownEditor
+                height="20rem"
+                placeholder="Description"
+                {...field}
+              />
+            </div>
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>

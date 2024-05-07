@@ -5,8 +5,8 @@ import { Skeleton } from "@/app/component";
 const IssueFormSkeleton = () => {
   return (
     <Box className="max-w-xl">
-      <Skeleton height="2rem" />
-      <Skeleton height="20rem" />
+      <Skeleton baseColor="#a39190" highlightColor="#d4c8c7" height="2rem" />
+      <Skeleton baseColor="#a39190" highlightColor="#d4c8c7" height="20rem" />
     </Box>
   );
 };

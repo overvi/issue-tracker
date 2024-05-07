@@ -23,16 +23,16 @@ const IssuesLoading = () => {
           {issues.map((issue) => (
             <Table.Row key={issue}>
               <Table.Cell>
-                <Skeleton />
+                <Skeleton baseColor="#a39190" highlightColor="#d4c8c7" />
                 <div className="block md:hidden">
                   <Skeleton />
                 </div>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                <Skeleton />
+                <Skeleton baseColor="#a39190" highlightColor="#d4c8c7" />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                <Skeleton />
+                <Skeleton baseColor="#a39190" highlightColor="#d4c8c7" />
               </Table.Cell>
             </Table.Row>
           ))}

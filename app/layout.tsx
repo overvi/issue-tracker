@@ -4,6 +4,7 @@ import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { dark } from "@clerk/themes";
 import NavBar from "./NavBar";
 
 import { ClerkProvider } from "@clerk/nextjs";
@@ -25,7 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html className="dark" lang="en">
         <body className={inter.variable}>
           <Query>

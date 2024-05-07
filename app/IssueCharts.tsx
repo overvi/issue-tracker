@@ -22,7 +22,7 @@ const IssueCharts = ({ open, inProgress, closed }: Props) => {
         <BarChart data={data}>
           <XAxis dataKey="label" />
           <YAxis />
-          <Bar dataKey="value" barSize={60} fill="#6e56c7" />
+          <Bar dataKey="value" barSize={60} fill="#5d9c40" />
         </BarChart>
       </ResponsiveContainer>
     </Card>

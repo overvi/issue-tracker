@@ -1,11 +1,10 @@
 "use client";
 
-import { Skeleton } from "@/app/component";
 import { axiosInstance } from "@/app/hook/useIssues";
-import useUsers from "@/app/hook/useUsers";
 import { User } from "@clerk/nextjs/server";
 import { Issue } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 interface Props {
@@ -14,9 +13,9 @@ interface Props {
 }
 
 const AssigneSelect = ({ issue, users }: Props) => {
-  console.log(users);
+  const router = useRouter();
 
-  const assigneUser = (userId: string) =>
+  const assigneUser = (userId: string) => {
     axiosInstance
       .patch(`/issues/${issue.id}`, {
         assignedUserId: userId || null,
@@ -24,6 +23,8 @@ const AssigneSelect = ({ issue, users }: Props) => {
       .catch(() => {
         toast.error("Changes Could Not Be Saved");
       });
+    router.refresh();
+  };
 
   return (
     <>
@@ -38,7 +39,7 @@ const AssigneSelect = ({ issue, users }: Props) => {
             <Select.Item value="">Unassigned</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
-                {user.firstName}
+                {user.firstName || user.emailAddresses[0].emailAddress}
               </Select.Item>
             ))}
           </Select.Group>

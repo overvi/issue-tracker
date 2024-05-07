@@ -1,36 +1,19 @@
 "use client";
 
+import { SignUpButton, UserButton, useUser } from "@clerk/nextjs";
+import { Container, Flex, IconButton } from "@radix-ui/themes";
+import classNames from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { AiFillBug } from "react-icons/ai";
-import classNames from "classnames";
-import { Skeleton } from "@/app/component";
-import {
-  SignInButton,
-  SignOutButton,
-  SignUpButton,
-  UserButton,
-  useSession,
-  useUser,
-} from "@clerk/nextjs";
-import {
-  Box,
-  Container,
-  Flex,
-  DropdownMenu,
-  Avatar,
-  Text,
-  IconButton,
-} from "@radix-ui/themes";
-import ChangeTheme from "./component/ChangeTheme";
-import { SignIn } from "@clerk/nextjs";
 import { FaGoogle } from "react-icons/fa";
 import { SkeletonTheme } from "react-loading-skeleton";
+import ChangeTheme from "./component/ChangeTheme";
+import { useTheme } from "next-themes";
 
 const NavBar = () => {
   return (
-    <nav className=" flex gap-5 p-4 border-y dark:border-zinc-400 mb-5 justify-between">
+    <nav className=" flex gap-5 p-4 border-y dark:border-zinc-800 mb-5 justify-between">
       <Container>
         <Flex align="center" justify="between" gap="5">
           <Flex className="items-center gap-3">
@@ -62,8 +45,9 @@ const NavLinks = () => {
         <li key={link.herf}>
           <Link
             className={classNames({
-              "nav-link": true,
-              "!text-zinc-900 dark:!text-zinc-50 ": link.herf === currentPath,
+              "nav-link font-medium": true,
+              "!text-zinc-900 font-medium dark:!text-zinc-50 ":
+                link.herf === currentPath,
             })}
             href={link.herf}
           >
@@ -76,11 +60,12 @@ const NavLinks = () => {
 };
 
 const Sign = () => {
+  const { theme } = useTheme();
   return (
     <div>
       <SignUpButton mode="modal">
         <IconButton className="!bg-transparent " aria-label="signup">
-          <FaGoogle color="lightgreen" size="25" />
+          <FaGoogle color={theme == "light" ? "black" : "white"} size="25" />
         </IconButton>
       </SignUpButton>
     </div>
