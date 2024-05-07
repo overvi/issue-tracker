@@ -36,22 +36,34 @@ export async function PATCH(
   if (!issue)
     return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
 
-  const updatedIssue = await prisma.issue.update({
-    where: { id: issue.id },
-    data: {
-      status: status || "IN_PROGRESS",
-      title,
-      description,
-      assignedToUserId: assignedUserId,
-      comments: {
-        create: {
-          ...comment,
+  if (comment) {
+    const updatedIssue = await prisma.issue.update({
+      where: { id: issue.id },
+      data: {
+        status: status || "IN_PROGRESS",
+        title,
+        description,
+        assignedToUserId: assignedUserId,
+        comments: {
+          create: {
+            ...comment,
+          },
         },
       },
-    },
-  });
-
-  return NextResponse.json(updatedIssue);
+    });
+    return NextResponse.json(updatedIssue);
+  } else {
+    const updatedIssue = await prisma.issue.update({
+      where: { id: issue.id },
+      data: {
+        status: status || "IN_PROGRESS",
+        title,
+        description,
+        assignedToUserId: assignedUserId,
+      },
+    });
+    return NextResponse.json(updatedIssue);
+  }
 }
 
 export async function DELETE(request: NextRequest, { params }: Props) {
