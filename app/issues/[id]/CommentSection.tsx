@@ -20,6 +20,7 @@ const CommentSection = ({ comments, users, commentCount }: Props) => {
       {!!commentCount && <Heading>{commentCount} Comments</Heading>}
       {comments.map((comment, index) => (
         <Comment
+          key={comment.id}
           user={users.find((x) => x.id === comments[index].userId)!}
           comment={comment}
         />
