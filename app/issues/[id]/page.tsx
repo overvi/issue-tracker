@@ -7,7 +7,6 @@ import IssueDetails from "./IssueDetails";
 
 import Padgination from "@/app/component/Padgination";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { cache } from "react";
 import AssigneSelect from "./AssigneSelect";
 import CommentSection from "./CommentSection";
 import SelectStatus from "./SelectStatus";
@@ -15,21 +14,9 @@ import SelectStatus from "./SelectStatus";
 interface Props {
   params: { id: string; page: string };
   searchParams: { page: string; pageSize: number };
-  props: { page: number; pageSize: number };
 }
 
-const fetchuUser = cache(({ params, props }: Props) =>
-  prisma.issue.findUnique({
-    where: { id: params.id },
-    include: {
-      comments: {
-        skip: (props.page - 1) * props.pageSize,
-        take: props.pageSize,
-      },
-    },
-  })
-);
-const IssuesDetailsPage = async ({ params, searchParams }: Props) => {
+async function IssuesDetailsPage({ params, searchParams }: Props) {
   const comments = await prisma.comment.count({
     where: { issueId: params.id },
   });
@@ -37,12 +24,13 @@ const IssuesDetailsPage = async ({ params, searchParams }: Props) => {
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 3;
 
-  const issue = await fetchuUser({
-    params,
-    searchParams,
-    props: {
-      page,
-      pageSize,
+  const issue = await prisma.issue.findUnique({
+    where: { id: params.id },
+    include: {
+      comments: {
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      },
     },
   });
   const users = await clerkClient.users.getUserList();
@@ -83,7 +71,7 @@ const IssuesDetailsPage = async ({ params, searchParams }: Props) => {
       />
     </>
   );
-};
+}
 
 export async function generateMetadata({ params }: Props) {
   const issue = await prisma.issue.findUnique({
